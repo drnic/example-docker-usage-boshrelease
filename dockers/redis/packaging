@@ -1,0 +1,19 @@
+set -e
+
+DOCKER_PACKAGE_DIR=$(pwd)
+NAME=$(basename $DOCKER_PACKAGE_DIR)
+
+WORK_DIR=$(mktemp -d -t docker)
+
+pushd $WORK_DIR
+  cp -a ${DOCKER_PACKAGE_DIR}/Dockerfile .
+
+  for blob in $(<${DOCKER_PACKAGE_DIR}/blobs)
+  do
+  	cp -a ${DOCKER_PACKAGE_DIR}/../../blobs/${blob} .
+  done
+
+  docker build -t $NAME .
+popd
+
+docker images | head -n 2
