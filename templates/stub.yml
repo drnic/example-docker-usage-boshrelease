@@ -1,0 +1,13 @@
+---
+meta:
+  environment: NAME
+  dns_root: microbosh
+  network_name: example_docker_usage1
+  security_groups:
+    - example_docker_usage
+
+director_uuid: PLACEHOLDER-DIRECTOR-UUID
+
+releases:
+  - name: example-docker-usage
+    version: latest

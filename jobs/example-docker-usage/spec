@@ -1,0 +1,13 @@
+---
+name: example-docker-usage
+packages: []
+templates:
+  bin/monit_debugger: bin/monit_debugger
+  bin/example_docker_usage_ctl: bin/example_docker_usage_ctl
+  config/example_docker_usage.conf.erb: config/example_docker_usage.conf
+  data/properties.sh.erb: data/properties.sh
+  helpers/ctl_setup.sh: helpers/ctl_setup.sh
+  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+properties:
+  example_docker_usage.leader_address:
+    description: Hostname/IP to the leader/master of the cluster
