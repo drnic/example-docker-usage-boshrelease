@@ -11,9 +11,13 @@ cp -a ${DOCKER_PACKAGE_DIR}/Dockerfile $WORK_DIR/
 
 for blob in $(<${DOCKER_PACKAGE_DIR}/blobs)
 do
-	cp -a ${DOCKER_PACKAGE_DIR}/../../blobs/${blob} $WORK_DIR/
+  filename=$(basename ${blob})
+  abs_blob_path=$(readlink ${DOCKER_PACKAGE_DIR}/../../blobs/${blob})
+  echo $abs_blob_path
+  echo $filename
+	cp -a ${abs_blob_path} $WORK_DIR/$filename
 done
 
-docker build -t $NAME $WORK_DIR
+cd $WORK_DIR && docker build -t $NAME .
 
 docker images | head -n 2
