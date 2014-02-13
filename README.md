@@ -1,5 +1,7 @@
 # BOSH Release for example-docker-usage
 
+WIP. This is an experiment in how a set of Docker repositories can be created, packaged and then run within a BOSH deployment on AWS, OpenStack or vSphere.
+
 ## Usage
 
 To use this bosh release, first upload it to your bosh:
