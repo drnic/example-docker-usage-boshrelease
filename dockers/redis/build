@@ -5,7 +5,7 @@ set -e
 DOCKER_PACKAGE_DIR=$(pwd)
 NAME=$(basename $DOCKER_PACKAGE_DIR)
 
-WORK_DIR=$(mktemp -d -t docker)
+WORK_DIR=$(mktemp -d -t XXXXXX)
 
 cp -a ${DOCKER_PACKAGE_DIR}/Dockerfile $WORK_DIR/
 
