@@ -8,7 +8,7 @@ for docker in $dockers
 do
   echo Building docker repository $(basename $docker)...
   cd $docker
-    ./packaging
+    ./build
   cd -
   echo
 done
