@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+dockers=$(ls -d dockers/*)
+for docker in $dockers
+do
+  echo Building docker repository $(basename $docker)...
+  cd $docker
+    ./packaging
+  cd -
+  echo
+done
