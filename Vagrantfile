@@ -2,8 +2,8 @@
 # # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "boot2docker-0.5.4"
-  config.vm.box_url = "https://github.com/mitchellh/boot2docker-vagrant-box/releases/download/v0.5.4/boot2docker_virtualbox.box"
+  config.vm.box = "boot2docker-0.5.4-1"
+  config.vm.box_url = "https://github.com/mitchellh/boot2docker-vagrant-box/releases/download/v0.5.4-1/boot2docker_virtualbox.box"
 
   # docker-registry
   config.vm.network "forwarded_port", guest: 5000, host: 5000, auto_correct: true
