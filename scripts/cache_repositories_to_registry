@@ -2,21 +2,44 @@
 
 set -e
 
-REGISTRY_CACHE=$(mktemp -d -t docker)
+REGISTRY_CACHE=$(pwd)/tmp/registry-cache
+
+function stop_registry {
+  echo "Stopping registry..."
+  docker stop $CONTAINER_ID
+}
+
+CONTAINER_ID=$(docker ps | grep drnic/docker-registry:latest | grep '5000->5000' | awk '{print $1}')
+if [[ "${CONTAINER_ID}X" != "X" ]]; then
+  stop_registry
+fi
 
 echo "Starting registry..."
 CONTAINER_ID=$(docker run -d -v ${REGISTRY_CACHE}:/registry -p 5000:5000 drnic/docker-registry)
 
-REGISTRY_HOST=localhost
+trap stop_registry SIGHUP SIGINT SIGTERM
+
+REGISTRY_HOST=localdocker
 REGISTRY_HOST_PORT=$(docker inspect -format='{{range $p, $conf := .NetworkSettings.Ports}}{{(index $conf 0).HostPort}}{{end}}' $CONTAINER_ID)
+REGISTRY=$REGISTRY_HOST:$REGISTRY_HOST_PORT
+echo $REGISTRY
 
 sleep 2
-found=$(curl -s --retry-delay 1 --retry 3 http://$REGISTRY_HOST:$REGISTRY_HOST_PORT/v1/_ping)
+found=$(curl -s --retry-delay 1 --retry 3 http://$REGISTRY/v1/_ping)
 if [[ "${found}" != "true" ]]; then
-	echo Registry did not come up at http://$REGISTRY_HOST:$REGISTRY_HOST_PORT
-	docker stop $CONTAINER_ID
+	echo Registry did not come up at http://$REGISTRY
+	stop_registry
 	exit 1
 fi
 
-echo "Stopping registry..."
-docker stop $CONTAINER_ID
+dockers=$(ls -d dockers/*)
+for docker in $dockers
+do
+  echo Pushing $(basename $docker)...
+  cd $docker
+    ./push $REGISTRY
+  cd -
+  echo
+done
+
+stop_registry

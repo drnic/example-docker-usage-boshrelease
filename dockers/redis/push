@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+REGISTRY=${1:-localhost:5000}
+
+RELEASE_NAME=example-docker-usage
+PACKAGE_NAME=redis
+LOCAL_REPOSITORY_NAME=${RELEASE_NAME}-${PACKAGE_NAME}
+
+docker tag $LOCAL_REPOSITORY_NAME $REGISTRY/$PACKAGE_NAME
+docker push $REGISTRY/$PACKAGE_NAME
