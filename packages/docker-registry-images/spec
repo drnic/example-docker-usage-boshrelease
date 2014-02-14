@@ -1,0 +1,5 @@
+---
+name: docker-registry-images
+dependencies: []
+files:
+- docker-registry-images/**/*

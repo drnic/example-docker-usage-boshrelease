@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
 
+# Run from root of project
+
 set -e
 
 REGISTRY_CACHE=$(pwd)/tmp/registry-cache
+BLOBS_DIR=$(pwd)/blobs/docker-registry-images
+
+function copy_to_blobs {
+  echo "Copying images to blobs..."
+  mkdir -p ${BLOBS_DIR}
+  cp -a ${REGISTRY_CACHE}/* ${BLOBS_DIR}/
+}
 
 function stop_registry {
   echo "Stopping registry..."
@@ -22,7 +31,6 @@ trap stop_registry SIGHUP SIGINT SIGTERM
 REGISTRY_HOST=localdocker
 REGISTRY_HOST_PORT=$(docker inspect -format='{{range $p, $conf := .NetworkSettings.Ports}}{{(index $conf 0).HostPort}}{{end}}' $CONTAINER_ID)
 REGISTRY=$REGISTRY_HOST:$REGISTRY_HOST_PORT
-echo $REGISTRY
 
 sleep 2
 found=$(curl -s --retry-delay 1 --retry 3 http://$REGISTRY/v1/_ping)
@@ -42,4 +50,5 @@ do
   echo
 done
 
+copy_to_blobs
 stop_registry
