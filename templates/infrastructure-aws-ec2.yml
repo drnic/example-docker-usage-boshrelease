@@ -6,7 +6,7 @@ meta:
 
   stemcell:
     name: bosh-aws-xen-ubuntu
-    version: latest
+    version: 71
 
 jobs:
   - name: example_docker_usage_leader_z1
