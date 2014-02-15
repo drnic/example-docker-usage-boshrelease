@@ -1,0 +1,5 @@
+check process example_docker_usage
+  with pidfile /var/vcap/sys/run/example_docker_usage/example_docker_usage.pid
+  start program "/var/vcap/jobs/example_docker_usage/bin/monit_debugger example_docker_usage_ctl '/var/vcap/jobs/example_docker_usage/bin/example_docker_usage_ctl start'"
+  stop program "/var/vcap/jobs/example_docker_usage/bin/monit_debugger example_docker_usage_ctl '/var/vcap/jobs/example_docker_usage/bin/example_docker_usage_ctl stop'"
+  group vcap
